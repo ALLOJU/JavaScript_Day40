@@ -3,85 +3,82 @@
  
  **************************************************************************************************************/
 
-//Printing a welcome note to console
-console.log("Welcome to address book system!");
-
-//regex validation
+/**
+ * Validate the inputs that are added to the contact in address book
+ */
  var prompt=require('prompt-sync')();
  const NAME_REGEX_PATTERN = RegExp('^[A-Z]{1}[a-z]{2,}$');
- const ADDRESS_REGEX_PATTERN = RegExp('^[a-zA-z]{3,}$');
+ const ADDRESS_REGEX_PATTERN = RegExp('^[A-Za-z]{3,}$');
  const PINCODE_REGEX_PATTERN = RegExp('^[0-9]{6}$');
  const PHONE_NUMBER_PATTERN = RegExp('^[9][1][6-9]{1}[0-9]{9}$'); 
  const EMAIL_REGEX_PATTERN=RegExp('^[a-zA-Z0-9]+([._+-][0-9a-zA-Z]+)*@[a-zA-Z0-9]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,4})?$');
+ let contactArray = new Array();
  
- /**
- * Created a class for contacts as blue print
- */
- class AddressBookContact {
+ class Contact {
  
-     firstName;
-     lastName;
-     address;
-     city;
-     state;
-     zip;
-     phoneNumber;
-     email;
- 
+     set firstName(firstName) {
+         if (NAME_REGEX_PATTERN.test(firstName))
+             this.perFirstName = firstName;
+         else throw "Invalid first name ";
+     }
      get firstName() {
-         return this.firstName;
+         return this.perFirstName;
      }
-     set firstName(value) {
-         this.firstName = value;
+     set lastName(lastName) {
+         if (NAME_REGEX_PATTERN.test(lastName))
+             this.perLastName = lastName;
+         else throw "Invalid last name";
      }
- 
      get lastName() {
-         return this.lastName;
+         return this.perLastName;
      }
-     set lastName(value) {
-         this.lastName = value;
+     set address(address) {
+         if (ADDRESS_REGEX_PATTERN.test(address))
+             this.perAddress = address;
+         else throw "Invalid address";
      }
- 
      get address() {
-         return this.address;
+         return this.perAddress;
      }
-     set address(value) {
-         this.address = value;
+     set city(city) {
+         if (ADDRESS_REGEX_PATTERN.test(city))
+             this.perCity = city;
+         else throw "Invalid city name";
      }
- 
      get city() {
-         return this.city;
+         return this.perCity;
      }
-     set city(value) {
-         this.city = value;
+     set state(state) {
+         if (ADDRESS_REGEX_PATTERN.test(state))
+             this.perState = state;
+         else throw "Invalid state";
      }
- 
      get state() {
-         return this.state;
+         return this.perState;
      }
-     set state(value) {
-         this.state = value;
+     set zip(zip) {
+         if (PINCODE_REGEX_PATTERN.test(zip))
+             this.perZip = zip;
+         else throw "Invalid zip code";
      }
- 
      get zip() {
-         return this.zip;
+         return this.perZip;
      }
-     set zip(value) {
-         this.zip = value;
+     set phoneNumber(phoneNumber) {
+         if (PHONE_NUMBER_PATTERN.test(phoneNumber))
+             this.perPhoneNumber = phoneNumber;
+         else throw "Invalid phone number";
      }
- 
      get phoneNumber() {
-         return this.phoneNumber;
+         return this.perPhoneNumber;
      }
-     set phoneNumber(value) {
-         this.phoneNumber = value;
+     set email(email) {
+         if (EMAIL_REGEX_PATTERN.test(email))
+             this.perEmail = email;
+         else throw "Invalid email";
      }
- 
      get email() {
-         return this.email;
-     }
-     set email(value) {
-         this.email = value;
+         return this.perEmail;
      }
  
      constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
@@ -94,68 +91,23 @@ console.log("Welcome to address book system!");
          this.phoneNumber = phoneNumber;
          this.email = email;
      }
- }
  
- function validateDetails(firstName, lastName, address, city, state, zip, phoneNumber, email) {
-     if (!NAME_REGEX_PATTERN.test(firstName)) {
-         console.log('Please enter first name in valid format.');
-         return false;
-     } if (!NAME_REGEX_PATTERN.test(lastName)) {
-         console.log('Please enter last name in valid format.');
-         return false;
-     }
-     if (!ADDRESS_REGEX_PATTERN.test(address)) {
-         console.log('Please enter address in valid format.');
-         return false;
-     }
-     if (!ADDRESS_REGEX_PATTERN.test(city)) {
-         console.log('Please enter city in valid format.');
-         return false;
-     }
-     if (!ADDRESS_REGEX_PATTERN.test(state)) {
-         console.log('Please enter state in valid format.');
-         return false;
-     }
- 
-     if (!PINCODE_REGEX_PATTERN.test(zip)) {
-         console.log('Please enter zip in valid format.');
-         return false;
-     }
-     
-     if (!PHONE_NUMBER_PATTERN.test(phoneNumber)) {
-         console.log('Please enter phoneNumber in valid format.');
-         return false;
-     }
-    
-     if (!EMAIL_REGEX_PATTERN.test(email)) {
-         console.log('Please enter email in valid format.');
-         return false;
-     }
-     else {
-         console.log('Given details are valid.');
-         return true;
-     }
- }
- 
- //taking input from user
- var firstName = prompt("Please enter your first name : ");
- var lastName = prompt("Please enter your last name : ");
- var address = prompt("Please enter your address : ");
- var city = prompt("Please enter your city : ");
- var state = prompt("Please enter your state : ");
- var zip = parseInt(prompt("Please enter your zipCode : "));
- var phoneNumber = parseInt(prompt("Please enter your phoneNumber : "));
- var email = prompt("Please enter your email : ");
- 
- /**
-     * Method to log the data to console
-     * gets all the arguments given while creating new contact
-     * @returns String formatted contact
-     */
- let contactArray = new Array();
- contactArray.push({
-     nameObj: validateDetails(firstName, lastName, address, city, state, zip, phoneNumber, email),
      toString() {
          return "First name: " + this.firstName + "\nLast name: " + this.lastName + "\nAddress: " + this.address + "\nCity: " + this.city + "\nState: " + this.state + "\nZip: " + this.zip + "\nPhone number: " + this.phoneNumber + "\nEmail: " + this.email;
-     },
- });
+     }
+ }
+ 
+ /**
+ * To create a New Address Book array and add new Contacts to it
+ */
+ try {
+     let contact1 = new Contact("Mounika", "Alloju", "Girmajipet", "Warangal", "Telangana", 506002, 919866349586, "mounika.alloju@gmail.com");
+     let contact2 = new Contact("Ramesh", "Sripadi", "Girmajipet", "Warangal", "Telangana", 506002, 919866349586, "mounika.alloju@gmail.com");
+ 
+     contactArray.push(contact1);
+     contactArray.push(contact2);
+     console.log(contactArray);
+ 
+ } catch (Exception) {
+     console.log(Exception)
+ }
