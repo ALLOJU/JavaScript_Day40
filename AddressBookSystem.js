@@ -6,15 +6,15 @@
 /**
  * Validate the inputs that are added to the contact in address book
  */
- var prompt=require('prompt-sync')();
- const NAME_REGEX_PATTERN = RegExp('^[A-Z]{1}[a-z]{2,}$');
- const ADDRESS_REGEX_PATTERN = RegExp('^[A-Za-z]{3,}$');
- const PINCODE_REGEX_PATTERN = RegExp('^[0-9]{6}$');
- const PHONE_NUMBER_PATTERN = RegExp('^[9][1][6-9]{1}[0-9]{9}$'); 
- const EMAIL_REGEX_PATTERN=RegExp('^[a-zA-Z0-9]+([._+-][0-9a-zA-Z]+)*@[a-zA-Z0-9]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,4})?$');
- let contactArray = new Array();
- 
- class Contact {
+ const prompt=require('prompt-sync')();
+const NAME_REGEX_PATTERN = /^[A-Z]{1}[a-z]{2,}$/;
+const ADDRESS_REGEX_PATTERN = /^[a-zA-z]{3,}$/;
+const PINCODE_REGEX_PATTERN = /^[0-9]{6}$/;
+const PHONE_NUMBER_PATTERN = /^[9][1][6-9]{1}[0-9]{9}$/; 
+const EMAIL_REGEX_PATTERN = /^[a-zA-Z0-9]+([._+-][0-9a-zA-Z]+)*@[a-zA-Z0-9]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,4})?$/;
+let contactArray = new Array();
+
+class Contact {
 
     firstName;
     lastName;
@@ -64,26 +64,17 @@
         this.firstName = firstName;
      }
     
-     /**
-     * Method to log the data to console
-     * gets all the arguments given while creating new contact
-     * @returns String formatted contact
-     */
     toString(){
         return "First Name: " + this.firstName + "\nLast Name: " + this.lastName + "\nAddress: " + this.address + "\nCity: " + this.city 
         + "\nState: " + this.state + "\nZip Code: " + this.zip + "\nPhone Number: " + this.phoneNumber + "\nEmail Id: " + this.email;
     }
 }
 
-/**
- * To find person by name from address book array
- */
-//add function used to add the contact details
 function addContact(){
     let firstName = prompt("Enter Firstname: ");
     let lastName = prompt("Enter Lastname: ");
-    if(contactArray.find((contact)=>(contact.firstName+" "+contact.lastName)==(FirstName+" "+LastName))){   
-        console.log("Name is already present in addressbook.");
+    if(contactArray.find((contact)=>(contact.firstName+" "+contact.lastName)==(firstName+" "+lastName))){   
+        console.log("Given contact already present in addressbook.");
         return;
     }
     let address = prompt("Enter Address: ");
@@ -101,7 +92,6 @@ function addContact(){
     }
 }
 
-//edit Contact is used to edit the inserted contact by using first name
 function editContact(firstName){
     let contact;
     for(let i = 0; i < contactArray.length; i++){
@@ -148,9 +138,6 @@ function editContact(firstName){
     }
 }
 
-/**
- * deletContact used for deleting the already inserted contact 
- */
 let deletContact=()=>{
     if(contactArray.length==0){
         console.log("No contacts in the list");
@@ -167,7 +154,7 @@ let deletContact=()=>{
 
 let choice = 0;
 do{
-    console.log("Press: \n1) Add Contact \n2) Edit Contact \n3) View Contact \n 4)delete Contact \n0)Exit:");
+    console.log("Press: \n1) Add Contact \n2) Edit Contact \n3) View Contact  \n4) Delete Contact \n5) Count Contacts \n0)Exit:");
     choice = Number(prompt("Enter your choice: "));
     if(choice == 1){
         addContact();
@@ -185,5 +172,8 @@ do{
     }
     if(choice == 4){
         deletContact();
+    }
+    if(choice == 5){
+        console.log("Number of Contacts: "+contactArray.reduce(contact=>contact + 1, 0));
     }
 }while(choice != 0);
