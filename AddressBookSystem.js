@@ -1,6 +1,6 @@
 /***************************************************************************************************************
  * Purpose: This program is written to create a address-book-system and to perform various functinalities
-
+ 
  **************************************************************************************************************/
 
 /**
@@ -167,7 +167,7 @@ let deletContact=()=>{
 
 let choice = 0;
 do{
-    console.log("Press: \n1) Add Contact \n2) Edit Contact \n3)Delete \n4) View Contact \n0)Exit:");
+    console.log("Press: \n1) Add Contact \n2) Edit Contact \n3) View Contact \n 4)delete Contact \n0)Exit:");
     choice = Number(prompt("Enter your choice: "));
     if(choice == 1){
         addContact();
